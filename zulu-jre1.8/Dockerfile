@@ -40,27 +40,14 @@ RUN addgroup --system appuser --gid 1001 && \
     # Create a logs directory and set permissions
     && mkdir /app/logs && chown appuser:appuser /app/logs
 
-# Copy the test-image script to the binary directory
-COPY test-image.sh /usr/local/bin/
-
 # install https java checkup program
 COPY jenvtest.class /usr/local/share/jenvtest.class
 
 # COPY run-java.sh to /usr/local/bin
 COPY run-java.sh /usr/local/bin/
 
-# Execute the test script to verify image setup
-RUN /usr/local/bin/test-image.sh
-
-# Create a symbolic link for backward compatibility with legacy configurations
-RUN ln -s /app /bl
-
 # Set the default user to 'appuser' for security
 USER 1001
-
-# Define volumes for application data and temporary files
-VOLUME /app
-VOLUME /tmp
 
 # Set the default working directory
 WORKDIR /app
